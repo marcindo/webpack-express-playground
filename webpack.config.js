@@ -1,16 +1,10 @@
 import webpack from 'webpack';
-import {resolve} from 'path';
+import { resolve } from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 module.exports = {
-  
-  entry: 
-  {
-    root: ["webpack-hot-middleware/client", resolve(__dirname, 'src', 'components','root.jsx')],
-    blog: ["webpack-hot-middleware/client", resolve(__dirname, 'src', 'components','blog.jsx')],
-    about: ["webpack-hot-middleware/client", resolve(__dirname, 'src', 'components','about.jsx')],
-  },
 
+  entry: ['webpack-hot-middleware/client?noIfno=true&reload=true', resolve(__dirname, 'src', 'index.jsx')],
   output: {
     path: resolve(__dirname, 'build'),
     filename: '[name]/bundle.js',
@@ -18,12 +12,16 @@ module.exports = {
   },
 
   resolve: {
-		extensions: ['.js', '.jsx']
-	},
+    extensions: ['.js', '.jsx'],
+  },
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-
+    new webpack.NoEmitOnErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      template: resolve(__dirname, 'src', 'index.ejs'),
+      title: 'react-template',
+    }),
   ],
   module: {
     rules: [

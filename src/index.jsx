@@ -1,9 +1,10 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import Root from './components/root';
 
 
-export default function render(RootComponent) {
-  if (module.hot) {
-    module.hot.accept();
-  }
-  return <RootComponent />;
+function render(RootComponent) {
+  ReactDOM.render(<RootComponent />, document.querySelector('#root'));
 }
+
+render(Root);
