@@ -7,7 +7,6 @@ import config from './webpack.config';
 
 
 const app = express();
-const DIST = path.join(__dirname, 'src');
 const DEFAULT_PORT = 3000;
 const compiler = webpack(config);
 
@@ -18,9 +17,18 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 app.use(webpackHotMiddleware(compiler));
 
-app.get('*', (_, res) => {
-  const indexPath = path.join(__dirname, 'src', 'index.ejs');
-  res.sendFile(indexPath);
+
+// app.use(express.static(path.join(__dirname, 'build')));
+app.get('*', (req, res, next) => {
+  const filename = path.join(compiler.outputPath, 'index.html');
+  compiler.outputFileSystem.readFile(filename, (err, result) => {
+    if (err) {
+      return next(err);
+    }
+    res.set('content-type', 'text/html');
+    res.send(result);
+    res.end();
+  });
 });
 
 app.listen(port);

@@ -1,20 +1,20 @@
-import webpack from 'webpack';
-import { resolve } from 'path';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+
+const webpack = require('webpack');
+const { resolve } = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-
-  entry: ['webpack-hot-middleware/client?noIfno=true&reload=true', resolve(__dirname, 'src', 'index.jsx')],
+  entry: ['webpack-hot-middleware/client?noInfo=true&reload=true', resolve(__dirname, 'src', 'index.jsx')],
   output: {
     path: resolve(__dirname, 'build'),
-    filename: '[name]/bundle.js',
+    filename: 'bundle.js',
     publicPath: '/',
   },
 
   resolve: {
     extensions: ['.js', '.jsx'],
     modules: [
-      resolve(__dirname, '..', 'src'),
+      resolve(__dirname, 'src'),
       'node_modules',
     ],
   },
@@ -23,7 +23,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
-      template: resolve(__dirname, 'src', 'index.ejs'),
+      template: resolve(__dirname, 'src', 'index.html'),
       title: 'react-template',
     }),
   ],
@@ -70,4 +70,5 @@ module.exports = {
       },
     ],
   },
+  devtool: 'inline-source-map',
 };
